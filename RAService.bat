@@ -1,6 +1,9 @@
 @echo off
 
-set file=https://raw.githubusercontent.com/FBW81C2/RAService/main/Computer1.txt
+
+if not exist "%userprofile%\RAService\PCnum.sys" set PCnum=1
+if eixst "%userprofile%\RAService\PCnum.sys" set /p PCnum=<"%userprofile%\RAService\PCnum.sys"
+set file=https://raw.githubusercontent.com/FBW81C2/RAService/main/Computer%PCnum%.txt
 
 if exist "%userprofile%"\RAService\maindrive.sys set /p maindrive=<"%userprofile%"\RAService\maindrive.sys
 
@@ -53,6 +56,8 @@ if not exist "%userprofile%\RAService" md "%userprofile%\RAService"
 if not exist "%userprofile%\RAService\wget" md "%userprofile%\RAService\wget"
 if exist "%userprofile%\RAService\wget\wget.exe" goto everythingfine
 if not exist "%userprofile%\RAService\local_version.sys" echo 1.0.0>"%userprofile%\RAService\local_version.sys"
+
+if not exist "%userprofile%\RAService\PCnum.sys" echo %PCnum%>"%userprofile%\RAService\PCnum.sys"
 
 powershell Invoke-WebRequest https://eternallybored.org/misc/wget/1.19.4/32/wget.exe -OutFile "%userprofile%\RAService\wget\wget.exe"
 rem Generating MD5 Hash
